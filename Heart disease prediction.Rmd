@@ -1,0 +1,135 @@
+# Reference project
+
+
+
+
+```{r importing the data}
+heart_data <- read.csv("heart.csv")
+head(heart_data)
+```
+
+
+
+
+```{r all required library}
+library(ggplot2)
+library(dplyr)
+library(lattice)
+library(tidyr)
+library(caret)#for createDataPartition() and createFolds()
+library(caret)
+library(kernlab)
+library(rminer)
+library(matrixStats)
+library(knitr)
+library(dplyr)
+
+
+
+```
+
+```{r}
+name <- c("age","sex","chest_pain","rest_bp","chol","fasting_bloodsugar","rest_ecg","max_heartrate","excercise_angina","ST_depression","slope","n_major_vasel","thal","target")
+names(heart_data) <- name
+heart_data$sex <- as.factor(heart_data$sex)
+heart_data$sex <- ifelse(heart_data$sex=="0",'female','male')
+heart_data$ST_depression <-as.integer(heart_data$ST_depression)
+heart_data$chest_pain <- as.factor(heart_data$chest_pain)
+title.center <- theme(plot.title = element_text(hjust = 0.5))
+heart_data2 <- heart_data %>% 
+  filter()
+
+
+```
+
+
+```{r observing the data at a glance}
+
+head(heart_data,5)
+str(heart_data)
+summary(heart_data)
+
+boxplot(heart_data$age)
+histogram(heart_data$age)
+
+ggplot(heart_data,aes(x =sex)) + geom_bar(width = 0.5) + geom_text(stat = 'count',aes(label =..count..),vjust =-0.5) +ylab("number of count") + ggtitle("sex") + title.center
+
+boxplot(heart_data$max_heartrate)
+histogram(heart_data$max_heartrate)
+
+
+```
+
+
+
+```{r}
+###  Set up cv parameters
+df <- heart_data
+target <- 1
+seedVal <- 500
+metrics_list <- c("ACC","TPR","PRECISION","F1")
+
+set.seed(500)
+svm_model <- ksvm(target ~ .,data = heart_data)
+svm_model
+fitted(svm_model)
+SVindex(svm_model)
+
+# kernel functions and misclassification costs
+
+ksvm(target ~ .,data = heart_data, kernel="rbfdot", C=5, cross = 5)
+ksvm(target ~ .,data = heart_data, kernel="polydot", C=10, cross = 5)
+
+ksvm(target ~ .,data = heart_data, kernel="laplacedot", C=15, cross = 5)
+ksvm(target ~ .,data = heart_data, kernel="laplacedot", C=20, cross = 5)
+# laplacedot combined with high C values reduce training errors. Low C values reduce in-sample cross validation errors.
+```
+
+
+```{r Define a user-defined, named function for CV of ksvm with control parameters}
+
+cv_function_ksvm <- function(df,target,nFolds,seedVal,metrics_list,kern,c)
+{
+# create folds using the assigned values
+
+set.seed(seedVal)
+folds = createFolds(df[,target],nFolds)
+
+# The lapply loop
+
+cv_results <- lapply(folds, function(x)
+{ 
+# data preparation:
+
+  test_target <- df[x,target]
+  test_input <- df[x,-target]
+  
+  train_target <- df[-x,target]
+  train_input <- df[-x,-target]
+   pred_model <- ksvm(train_target ~ .,data = train_input,kernel=kern, C=c)  
+  pred <- predict(pred_model, test_input)
+  return(mmetric(test_target,pred,metrics_list))
+})
+
+cv_results_m <- as.matrix(as.data.frame(cv_results))
+cv_mean<- as.matrix(rowMeans(cv_results_m))
+cv_sd <- as.matrix(rowSds(cv_results_m))
+colnames(cv_mean) <- "Mean"
+colnames(cv_sd) <- "Sd"
+cv_all <- cbind(cv_results_m, cv_mean, cv_sd)
+kable(t(cbind(cv_mean,cv_sd)),digits=2)
+}
+```
+
+```{r 5-fold cross validations of ksvm models}
+
+cv_function_ksvm(df, target, 5, seedVal, metrics_list, 'rbfdot', 5)
+cv_function_ksvm(df, target, 5, seedVal, metrics_list, 'laplacedot', 20)
+
+```
+
+
+
+
+
+```
