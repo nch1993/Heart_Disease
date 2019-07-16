@@ -1,0 +1,129 @@
+    ---
+    title: Heart Disease Prediction
+    author: Cho Hang Ng
+    date: "2019-05-16"
+    output:
+      html_document:
+        keep_md: true
+    ---
+```{r all required library}
+library(ggplot2)
+library(dplyr)
+library(lattice)
+library(tidyr)
+library(caret) #for createDataPartition() and createFolds()
+library(kernlab)
+library(rminer)
+library(matrixStats)
+library(knitr)
+library(psych) # for pairs panel to show correlation
+```
+
+```{r importing the data}
+heart_data <- read.csv("heart.csv",stringsAsFactors = FALSE)
+head(heart_data)
+str(heart_data)
+
+```
+```{r Data cleaning and preprocessing}
+heart_data <- na.omit(heart_data)
+name <- c("age","sex","chest_pain","rest_bp","chol","bloodsugar","rest_ecg","max_heartrate","exercise_angina","depression","slope","n_major_vasel","thal","target")
+names(heart_data) <- name
+heart_data$sex <- ifelse(heart_data$sex=="0",'female','male')
+heart_data$sex <- as.factor(heart_data$sex)
+heart_data$chest_pain <- as.factor(heart_data$chest_pain)
+
+set.seed(500)
+inTrain <- createDataPartition(heart_data$target , p=0.70, list=FALSE)
+train_input <- heart_data[inTrain,]
+test_input <- heart_data[-inTrain,]
+
+```
+
+
+```{r Data Exploration}
+# Data at a glance
+head(heart_data,5)
+str(heart_data)
+summary(heart_data)
+
+title.center <- theme(plot.title = element_text(hjust = 0.5))
+
+# Check the distribution of the target variable.
+densityplot(heart_data$target,xlab="Heart Disease")
+histogram(heart_data$target,xlab="Heart Disease")
+
+# Check correlation 
+pairs.panels(heart_data[c(1,4,5,6,7,8,9,10,13,14)])
+
+# Check the distribution of the age 
+histogram(heart_data$age,xlab='age')
+ggplot(heart_data,aes(x = age,fill = target))+
+  geom_bar()
+
+# Check the distribution of gender
+ggplot(heart_data,aes(x =sex)) + geom_bar(width = 0.5) + geom_text(stat = 'count',aes(label =..count..),vjust =-0.5) +ylab("Number of count") + ggtitle("sex") + title.center
+
+# Distribution of chest pain
+ggplot(heart_data,aes(x = chest_pain)) + geom_bar(width =0.5,fill ="blue") + geom_text(stat = 'count',aes(label =..count..),vjust = -0.4) + ggtitle("Chest Pain Type") + title.center
+
+# Distribution of max heart rate
+ggplot(heart_data,aes(x = max_heartrate)) + geom_histogram(fill = "blue") +ggtitle("Max Heart Rate") + title.center
+
+
+# Distribution of exercise_angina 
+ggplot(heart_data,aes(x = exercise_angina)) + geom_bar(fill = "blue") +ggtitle("Exercise_angina") + title.center
+
+# Distribution of depression 
+ggplot(heart_data,aes(x = depression)) + geom_density(fill = "blue") +ggtitle("Degression") + title.center
+
+# Distribution of slope 
+ggplot(heart_data,aes(x = slope)) + geom_bar(fill = "blue") +ggtitle("Degression") + title.center
+
+ggplot(heart_data,aes(factor(n_major_vasel))) + geom_bar(fill ="blue") + ggtitle("Barplot of n_major_vassel") +title.center
+
+ggplot(heart_data,aes(factor(thal))) + geom_bar(fill ="blue") +ggtitle("barplot of thal") +title.center
+```
+
+
+
+```{r building model}
+# Build ksvm model 
+set.seed(500)
+svm_model <- ksvm(target ~ .,data = train_input)
+
+# kernel functions and misclassification costs
+set.seed(500)
+ksvm(target ~ .,data = heart_data, kernel="rbfdot", C=5, cross = 5)
+set.seed(500)
+ksvm(target ~ .,data = heart_data, kernel="polydot", C=10, cross = 5)
+set.seed(500)
+ksvm(target ~ .,data = heart_data, kernel="laplacedot", C=15, cross = 5)
+set.seed(500)
+ksvm(target ~ .,data = heart_data, kernel="laplacedot", C=20, cross = 5)
+# laplacedot combined with high C values reduce training errors. Low C values reduce in-sample cross validation errors.
+ksvm_predict <- svm_model %>%predict(test_input)
+predicted_ksvm <- ifelse(ksvm_predict>0.5,1,0)
+mean(predicted_ksvm==test_input$target)
+# Accuracy is 81% on testing data.
+
+
+
+```
+
+```{r Building logistic regression Model}
+set.seed(100)
+glm_model <- glm(target~.,data =train_input)
+summary(glm_model)
+glm_predict <- glm_model %>%predict(test_input)
+predicted_glm <- ifelse(glm_predict>0.5,1,0)
+mean(predicted_glm==test_input$target)
+
+# Accuracy is 83.3% 
+
+ggplot(test_input,aes(x = glm_predict,y=target,col =glm_predict))+
+  geom_point() +
+  stat_smooth(method = "glm",alpha = 0.1) + ggtitle("Logistic Regression Plot") +title.center
+
+```
+
