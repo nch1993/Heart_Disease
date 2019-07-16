@@ -24,10 +24,10 @@ By accurately predicting a whether a patient has heart disease, healthcare profe
 ## Process
 
 1. Cleaning and Data Preprocessing. I cleaned up and rename the columns for simplicity purpose. I change some of the column type for later machine learning tasks.
-2. Data Exploratory. This is a phrase where I want to explore the distribution of each features and their correlation with each other to check for collinearity.
+2. Data Exploratory. This is a data visualization phrase to explore the distribution of each features and their correlation with each other in order to check for collinearity.
 3. Kernal support vector machine(KSVM) algorithm was used to predict the outcome. It achieves a 81 % accuracy on the testing set. 
 4. Logistic regression is then used. It achieves a 83% accuracy on the testing set.
 
 ## Limitation 
 
-Since it is not a very large dataset, this proeject can be used for further development in the future. On the other hand, the medical conditions are widely covered in the features, so it can be used as a basis to predict outcomes.
+Since it is not a very large dataset, this proeject can be used for further development in the future. On the other hand, the medical conditions are widely covered in the features, so it can be used as a basis to predict hypothetical outcomes.
