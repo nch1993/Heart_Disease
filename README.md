@@ -18,7 +18,10 @@ This project aims to predict whether a patient has heart disease based on 13 med
 12. number of major vessels (0-3) 
 13. thal condition
 ## Background 
+
 By accurately predicting a whether a patient has heart disease, healthcare professional can narrow down the potential patients and identify any early treatement and provide corresponding recommendations. I believe that machine learning can bring tremendous values to the healthcare sector. 
+
+Accuracy is used to evaluate the model performance since we are interested in minimizing the type 1 error 
 
 
 ## Process
