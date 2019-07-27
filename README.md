@@ -3,7 +3,7 @@ The dataset is downloaded from Kaggle
 https://www.kaggle.com/johnsmith88/heart-disease-dataset
 
 ## Goal: 
-This project aims to predict whether a patient has heart disease based on 13 medical features of patients including
+This project aims to assist the hospital to improve early-disease detection rate. It has been developed as a disease prediction application based on 13 medical features of patients including
 1. age
 2. sex
 3. chest pain type 
@@ -17,6 +17,7 @@ This project aims to predict whether a patient has heart disease based on 13 med
 11. the slope of the peak exercise ST segment
 12. number of major vessels (0-3) 
 13. thal condition
+
 ## Background 
 
 By accurately predicting a whether a patient has heart disease, healthcare professional can narrow down the potential patients and identify any early treatement and provide corresponding recommendations. I believe that machine learning can bring tremendous values to the healthcare sector. 
@@ -33,4 +34,4 @@ Accuracy is used to evaluate the model performance since we are interested in mi
 
 ## Limitation 
 
-Since it is not a very large dataset, this proeject can be used for further development in the future. On the other hand, the medical conditions are widely covered in the features, so it can be used as a basis to predict hypothetical outcomes.
+Since the dataset has less than 1000 observation, further data can be collected and added to avoid overfitting. In the healthcare industry, it can be served as a baseline for more machine learning tasks. 
