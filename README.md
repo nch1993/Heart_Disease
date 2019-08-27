@@ -20,9 +20,10 @@ This project aims to assist the hospital to improve early-disease detection rate
 
 ## Background 
 
-By accurately predicting a whether a patient has heart disease, healthcare professional can narrow down the potential patients and identify any early treatement and provide corresponding recommendations. I believe that machine learning can bring tremendous values to the healthcare sector. 
+Heart disease is an severe medical condition that can lead to heart failure and even dealth. Identifying heart disease early can help doctors take immediate medical actions to provide necessary treatments for patient. 
 
-Accuracy is used to evaluate the model performance since we are interested in minimizing the type 1 error 
+By predicting a whether a patient has heart disease, doctors can identify heart disease and provide early treatement and corresponding recommendations before it become worse.
+
 
 
 ## Process
@@ -32,6 +33,7 @@ Accuracy is used to evaluate the model performance since we are interested in mi
 3. Kernal support vector machine(KSVM) algorithm was used to predict the outcome. It achieves a 81 % accuracy on the testing set. 
 4. Logistic regression is then used. It achieves a 83% accuracy on the testing set.
 
+5. F1 score is used to evaluate the model performance since we are interested in minimizing the type 1 error - false negative
 ## Limitation 
 
 Since the dataset has less than 1000 observation, further data can be collected and added to avoid overfitting. In the healthcare industry, it can be served as a baseline for more machine learning tasks. 
