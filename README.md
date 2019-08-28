@@ -39,9 +39,7 @@ By predicting a whether a patient has heart disease, doctors can identify heart 
 Since the dataset has less than 1000 observation, further data can be collected and added to avoid overfitting. In the healthcare industry, it can be served as a baseline for more machine learning tasks. 
 
 
-A python version is added to the porfolio to solve some of the problems on the R version such as adding cross validation score and using KNN classifier.  Click [Python](https://github.com/dsjoench/Heart_Disease/blob/master/Heart%20Disease%20Detection.ipynb)
-
-[R](https://github.com/dsjoench/Heart_Disease/blob/master/Heart%20disease%20prediction.Rmd)
+A python version is added to the porfolio to solve some of the problems on the R version such as adding cross validation score and using KNN classifier.  Click [Python](https://github.com/dsjoench/Heart_Disease/blob/master/Heart%20Disease%20Detection.ipynb)[R](https://github.com/dsjoench/Heart_Disease/blob/master/Heart%20disease%20prediction.Rmd)
 
 
 
