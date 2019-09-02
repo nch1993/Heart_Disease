@@ -28,15 +28,26 @@ By predicting a whether a patient has heart disease, doctors can identify heart 
 
 ## Process
 
-1. Cleaning and Data Preprocessing. I cleaned up and rename the columns for simplicity purpose. I change some of the column type for later machine learning tasks.
-2. Data Exploratory. This is a data visualization phrase to explore the distribution of each features and their correlation with each other in order to check for collinearity.
-3. Kernal support vector machine(KSVM) algorithm was used to predict the outcome. It achieves a 81 % accuracy on the testing set. 
-4. Logistic regression is then used. It achieves a 83% accuracy on the testing set.
+1. Define and understand the business problem. This task aims to built up the foundation of the whole project
 
-5. Accuracy is used to evaluate the model performance since the dataset is balanced and cleaned.
-## Limitation 
+2. Cleaning and Data Preprocessing. I cleaned up and rename the columns for simplicity purpose. I change some of the column type for later machine learning tasks.
+3. Data visualization phrase to explore the distribution of each variables, checking for collearity.  Transforming and scaling the data for faster convergence, etc.
 
-Since the dataset has less than 1000 observation, further data can be collected and added to avoid overfitting. In the healthcare industry, it can be served as a baseline for more machine learning tasks. 
+4. Accuracy was used to evaluate the model performance for simplicity purpose. Other options include F1, ROC/AUC curve
+5. Building baseline model of random forest, plotting feature importances using the in-built function of the model. 
+
+6. Building logistic regression, KNN, support vector machine algorithms to compare against the baseline model.
+
+7. Model tuning and evaluation and find the optimized parameter for bias and variance trade off. Check for overfitting through plotting.
+
+
+
+
+## Future improvement
+
+- Feature engineering - Further understanding of variables, potentially combine some columns or adding new features.
+- Accuracy is not the best metric to evaluate the model performance even with the balanced dataset. Will try F1 or AUC curve.
+- Further tuning on random forest, adding gradient boosting to compare results
 
 
 A python version is added to the porfolio to add cross validation score and KNN model.  Click [Python](https://github.com/dsjoench/Heart_Disease/blob/master/Heart%20Disease%20Detection.ipynb) Version and [R](https://github.com/dsjoench/Heart_Disease/blob/master/Heart%20disease%20prediction.Rmd) Version
